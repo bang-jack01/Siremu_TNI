@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use App\Models\Prajurit;
 use App\Models\Notification;
 
@@ -17,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // Paksa HTTPS saat production (Railway)
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
+
         // Pastikan variabel notifications didefinisikan
         View::composer('*', function ($view) {
             $prajuritNavbar = null;
@@ -25,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::check()) {
                 $prajuritNavbar = Prajurit::where('user_id', Auth::id())->first();
 
-                // Ambil notifikasi untuk admin
                 if (Auth::user()->role === 'admin') {
                     $notifications = Notification::orderBy('created_at', 'desc')->take(10)->get();
                 }
