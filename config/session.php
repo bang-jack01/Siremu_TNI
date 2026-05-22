@@ -83,14 +83,14 @@ return [
     | Session Cookie Domain
     |--------------------------------------------------------------------------
     */
-    'domain' => env('SESSION_DOMAIN'),,
+    'domain' => env('SESSION_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
     | HTTPS Only Cookies
     |--------------------------------------------------------------------------
     */
-    'secure' => env('SESSION_SECURE_COOKIE'),, // kalo localhost jangan pakai true
+    'secure' => env('SESSION_SECURE_COOKIE'), // kalo localhost jangan pakai true
 
     /*
     |--------------------------------------------------------------------------
