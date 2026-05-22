@@ -28,16 +28,18 @@ class RegisterController extends Controller
     /**
      * STEP 1: Proses nama + email -> simpan session + kirim OTP
      */
-    public function registerStepOne(Request $request)
-    {
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-        ]);
+   public function registerStepOne(Request $request)
+{
+    $request->validate([
+        'name'  => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+    ]);
+
+    try {
 
         $otp = rand(100000, 999999);
 
-        // Simpan sementara di session
+        // Simpan ke session
         session([
             'register.name' => $request->name,
             'register.email' => $request->email,
@@ -45,20 +47,25 @@ class RegisterController extends Controller
             'register.otp_expires' => now()->addMinutes(10),
         ]);
 
-        try {
-            Mail::raw("Your OTP code is: $otp (valid for 10 minutes)", function($message) use ($request) {
-                $message->to($request->email)
-                        ->subject("Verify Your Email");
-            });
-        } catch (\Exception $e) {
-            session()->forget('register');
-            return back()->withErrors(['email' => 'Failed to send OTP. Please check mail configuration and try again.']);
-        }
+        // Kirim OTP
+        Mail::raw("Your OTP code is: $otp (valid for 10 minutes)", function ($message) use ($request) {
 
-        return redirect()->route('verify.otp.form', ['email' => $request->email])
-                         ->with('success', 'OTP has been sent to your email.');
+            $message->to($request->email)
+                    ->subject('Verify Your Email');
+
+        });
+
+        return redirect()->route('verify.otp.form', [
+            'email' => $request->email
+        ])->with('success', 'OTP has been sent to your email.');
+
+    } catch (\Exception $e) {
+
+        return back()->withErrors([
+            'email' => 'Mail Error: ' . $e->getMessage()
+        ]);
     }
-
+}
     /**
      * STEP 2: Tampilkan halaman verifikasi OTP
      */
