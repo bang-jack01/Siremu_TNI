@@ -8,17 +8,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\NotificationController;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
-
-Route::get('/db-test', function () {
-    try {
-        DB::connection()->getPdo();
-        return "Database Connected!";
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
-});
 
 // redirect root ke login
 Route::get('/', function () {
