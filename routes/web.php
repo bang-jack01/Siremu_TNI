@@ -84,3 +84,7 @@ Route::middleware(['auth'])->group(function () {
 
 // dashboard client
 Route::get('/client/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('client.dashboard');
+Route::get('/test123', function () {
+    return 'OK';
+});
+
