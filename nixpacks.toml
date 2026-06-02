@@ -1,5 +1,25 @@
+[variables]
+NIXPACKS_PHP_ROOT_DIR = "/app/public"
+
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.pdo_pgsql", "php82Extensions.pgsql"]
+nixPkgs = [
+  "php82",
+  "php82Extensions.pdo_pgsql",
+  "php82Extensions.pgsql"
+]
+
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader"
+]
+
+[phases.build]
+cmds = [
+  "php artisan config:clear",
+  "php artisan cache:clear",
+  "php artisan route:clear",
+  "php artisan view:clear"
+]
 
 [start]
-cmd = "php artisan optimize:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
