@@ -1,29 +1,33 @@
 FROM php:8.1-cli
 
-# 1. Install dependency sistem yang dibutuhkan oleh PostgreSQL
+# 1. Install dependency sistem yang dibutuhkan oleh PostgreSQL & GD (ekstensi gambar)
 RUN apt-get update && apt-get install -y \
     libpq-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
     git \
     unzip \
     zip \
     libzip-dev
 
-# 2. Hapus pdo_mysql lama, PAKSA install pdo_pgsql dan pgsql
+# 2. Konfigurasi ekstensi GD sebelum diinstall
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+
+# 3. INSTALL SEMUA DRIVER (Lengkap: PGSQL + GD + ZIP)
 RUN docker-php-ext-install \
     pdo \
     pdo_pgsql \
     pgsql \
+    gd \
     zip
 
 WORKDIR /app
 
 COPY . .
 
-# 3. Ambil composer terbaru
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 4. Install semua package laravel tanpa development tools
 RUN composer install --no-dev --optimize-autoloader
 
-# 5. Jalankan server utama via port yang dikasih Railway
 CMD php artisan serve --host=0.0.0.0 --port=${PORT}
