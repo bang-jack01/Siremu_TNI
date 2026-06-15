@@ -16,9 +16,9 @@ class CreatePrajuritTable extends Migration
             $table->string('korp', 3);
             $table->string('satuan_asal', 100);
             $table->string('satuan_baru', 100);
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('tempat_lahir', 100);
             $table->date('tanggal_lahir');
-            $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('no_kep', 50)->nullable();
             $table->date('tgl_kep')->nullable();
             $table->string('no_sprin', 50)->nullable();
