@@ -8,12 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->string('message');           // isi pesan notifikasi
-            $table->boolean('is_read')->default(false); // status sudah dibaca/belum
-            $table->timestamps();                // created_at & updated_at
-        });
+        if (!Schema::hasColumn('users', 'role')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('role')->default('user');
+            });
+        }
     }
 
     public function down(): void
