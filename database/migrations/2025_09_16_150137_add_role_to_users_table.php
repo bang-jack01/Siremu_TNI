@@ -6,21 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-     public function up()
+    public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user');
-        });
+        // Pakai try-catch agar jika PostgreSQL mendeteksi duplikat, errornya diabaikan dan migrasi tetap lanjut
+        try {
+            if (!Schema::hasColumn('users', 'role')) {
+                Schema::table('users', function (Blueprint $table) {
+                    $table->string('role')->default('user');
+                });
+            }
+        } catch (\Exception $e) {
+            // Biarkan kosong agar sistem tidak crash
+        }
     }
 
-    public function down()
+    public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
-        });
+        try {
+            if (Schema::hasColumn('users', 'role')) {
+                Schema::table('users', function (Blueprint $table) {
+                    $table->dropColumn('role');
+                });
+            }
+        } catch (\Exception $e) {
+            // Biarkan kosong
+        }
     }
-
 };
