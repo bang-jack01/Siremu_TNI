@@ -72,11 +72,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/input-data/update/{id}', [PrajuritController::class, 'update'])->name('input.update'); 
 });
 
-Route::get('/paksa-migrate', function () {
-    Artisan::call('migrate --force');
-    return 'Database di server berhasil diperbarui!';
+Route::get('/reset-database-siremu', function () {
+    // Perintah ini akan menghapus tabel lama dan membuat ulang struktur baru (termasuk kolom gender)
+    Artisan::call('migrate:fresh --force'); 
+    return 'Struktur database SIREMU TNI berhasil diperbarui dengan kolom gender!';
 });
-
 // dashboard client
 Route::get('/client/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('client.dashboard');
 Route::get('/php-modules', function () {
