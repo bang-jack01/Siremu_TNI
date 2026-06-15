@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Artisan;
 
 // redirect root ke login
 Route::get('/', function () {
@@ -69,6 +70,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/input-data/store', [PrajuritController::class, 'store'])->name('input.store');
     Route::get('/input-data/edit/{id}', [PrajuritController::class, 'edit'])->name('input.edit'); 
     Route::put('/input-data/update/{id}', [PrajuritController::class, 'update'])->name('input.update'); 
+});
+
+Route::get('/paksa-migrate', function () {
+    Artisan::call('migrate --force');
+    return 'Database di server berhasil diperbarui!';
 });
 
 // dashboard client
