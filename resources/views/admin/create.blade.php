@@ -8,7 +8,7 @@
             <h4 class="mb-0 fw-bold">Tambah Admin</h4>
         </div>        
         <div class="card-body">
-            <form action="{{ route('admin.store') }}" method="POST">
+            <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
