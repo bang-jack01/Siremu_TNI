@@ -24,7 +24,22 @@ class NotificationController extends Controller
     }
     public function clearRead()
     {
-        Notification::where('is_read', true)->delete();
-        return response()->json(['success' => true]);
+        try {
+            // Mengosongkan seluruh isi tabel notifikasi
+            Notification::truncate(); 
+
+            // Mengembalikan respons sukses dalam format JSON untuk AJAX
+            return response()->json([
+                'success' => true,
+                'message' => 'Semua notifikasi berhasil dibersihkan!'
+            ], 200);
+            
+        } catch (\Exception $e) {
+            // Mengembalikan respons gagal jika terjadi error pada database
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus notifikasi: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
