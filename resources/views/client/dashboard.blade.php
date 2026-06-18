@@ -37,12 +37,12 @@
                     <p class="fw-semibold text-secondary mb-3"><ion-icon name="person-outline"></ion-icon> Data Personil</p>
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
                         <div class="d-flex align-items-center">
-                            <img src="{{ Auth::user()->prajurit && Auth::user()->prajurit->foto && file_exists(public_path('storage/' . Auth::user()->prajurit->foto)) 
-                                     ? asset('storage/' . Auth::user()->prajurit->foto) 
-                                     : asset('images/default-user.png') }}"
-                             class="profile-img rounded-circle shadow-sm"
-                             style="width: 120px; height: 120px; object-fit: cover;"
-                             alt="Foto Prajurit">
+                            <img src="{{ Auth::user()->prajurit && Auth::user()->prajurit->foto 
+                                    ? asset('storage/' . Auth::user()->prajurit->foto) 
+                                    : asset('images/default-user.png') }}"
+                            class="profile-img rounded-circle shadow-sm"
+                            style="width: 120px; height: 120px; object-fit: cover;"
+                            alt="Foto Prajurit">
                             <div>
                                 <h4 class="text-muted fw-bold text-balck  mb-0">Nama: {{ $prajurit->name ?? '-' }}</h4>
                                 <p class="text-muted  mb-0">Email: {{ Auth::user()->email }}</p>

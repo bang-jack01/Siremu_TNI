@@ -61,9 +61,9 @@ class PrajuritController extends Controller
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('public/image', $filename);
-            $validated['foto'] = 'image/' . $filename;
+            $filename = $file->hashName(); 
+            $file->storeAs('public/prajurit', $filename);
+            $validated['foto'] = 'prajurit/' . $filename;
         }
         $prajurit = Prajurit::create($validated);
         Notification::create([
