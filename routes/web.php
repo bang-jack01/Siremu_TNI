@@ -72,10 +72,16 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/input-data/update/{id}', [PrajuritController::class, 'update'])->name('input.update'); 
 });
 
-Route::get('/reset-database-siremu', function () {
-    // Perintah ini akan menghapus tabel lama dan membuat ulang struktur baru (termasuk kolom gender)
-    Artisan::call('migrate:fresh --force'); 
-    return 'Struktur database SIREMU TNI berhasil diperbarui dengan kolom gender!';
+Route::get('/generate-link', function () {
+    // Menghapus link lama jika ada bumbu crash penyimpangan folder
+    if (is_dir(public_path('storage'))) {
+        app('files')->delete(public_path('storage'));
+    }
+
+    // Membuat ulang storage:link yang segar di server Railway
+    Artisan::call('storage:link');
+
+    return "Jembatan storage:link di Railway berhasil diperbarui!";
 });
 // dashboard client
 Route::get('/client/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('client.dashboard');
