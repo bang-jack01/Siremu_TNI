@@ -17,7 +17,7 @@
                     <input type="file" id="foto" name="foto" class="d-none" accept="image/*">
                     <label for="foto" class="w-100 h-100">
                         <img id="foto-preview"
-                            src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('images/default-user.png') }}"
+                            src="{{ Auth::user()->foto ? asset('storage/' . Auth::user()->foto) : asset('images/default-user.png') }}"
                             class="img-fluid w-100 h-100"
                             alt="Foto Profil"
                             style="object-fit: cover; cursor: pointer;">
