@@ -10,11 +10,13 @@
                 <div class="text-center bg-primary text-white p-4">
                     <div class="profile-img-wrapper mx-auto mb-2">
                         <img src="{{ Auth::user()->foto 
-                                 ? asset('storage/' . Auth::user()->foto) 
-                                 : asset('images/default-user.png') }}"
-                         class="profile-img rounded-circle shadow-sm"
-                         style="width: 120px; height: 120px; object-fit: cover;"
-                         alt="Foto Profil">
+                                   ? (Str::contains(Auth::user()->foto, 'storage/') 
+                                       ? asset(Auth::user()->foto) 
+                                       : asset('storage/' . Auth::user()->foto)) 
+                                   : asset('images/default-user.png') }}"
+                        class="profile-img rounded-circle shadow-sm"
+                        style="width: 120px; height: 120px; object-fit: cover;"
+                        alt="Foto Profil">
                     </div>
                     <h5 class="fw-bold mb-1">{{ Auth::user()->name }}</h5>
                     <span class="badge bg-danger role-badge">
