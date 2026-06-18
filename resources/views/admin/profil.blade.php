@@ -61,7 +61,9 @@
                                 <ion-icon name="time-outline" class="info-icon"></ion-icon>
                                 <div>
                                     <small class="text-muted">Terakhir Update</small>
-                                    <p class="mb-0 fw-semibold">{{ Auth::user()->updated_at->format('d M Y, H:i') }}</p>
+                                    <p class="mb-0 fw-semibold">
+                                        {{ Auth::user()->updated_at?->format('d M Y, H:i') ?? 'Belum pernah diperbarui' }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
