@@ -13,16 +13,16 @@
                         @csrf
                         <div class="text-center mb-4">
                             <div class="position-relative border rounded-circle mx-auto shadow-sm"
-                                style="width:130px; height:130px; overflow:hidden; cursor:pointer;">
-                                <input type="file" id="foto" name="foto" class="d-none" accept="image/*">
-                                <label for="foto" class="w-100 h-100">
-                                    <img id="foto-preview"
-                                        src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://via.placeholder.com/130' }}"
-                                        class="img-fluid w-100 h-100"
-                                        alt="Foto Profil"
-                                        style="object-fit: cover; cursor: pointer;">
-                                </label>
-                            </div>
+                     style="width:130px; height:130px; overflow:hidden; cursor:pointer;">
+                    <input type="file" id="foto" name="foto" class="d-none" accept="image/*">
+                    <label for="foto" class="w-100 h-100">
+                        <img id="foto-preview"
+                            src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('images/default-user.png') }}"
+                            class="img-fluid w-100 h-100"
+                            alt="Foto Profil"
+                            style="object-fit: cover; cursor: pointer;">
+                    </label>
+                </div>
                             <p class="fw-bold mt-2">Ubah Foto Profil</p>
                             @error('foto')
                                 <small class="text-danger d-block">{{ $message }}</small>
