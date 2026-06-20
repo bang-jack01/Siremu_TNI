@@ -284,9 +284,10 @@ class AdminController extends Controller
 
        if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $filename = $file->hashName();
-            $file->move(public_path('profile'), $filename);
-            $user->foto = 'profile/' . $filename;
+            $filename = 'admin_' . time() . '.' . $file->getClientOriginalExtension(); 
+            $file->move(public_path('image'), $filename);
+            $user->foto = 'image/' . $filename;
+            $user->save();
         }
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
